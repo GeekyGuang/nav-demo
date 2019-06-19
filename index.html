@@ -11,7 +11,7 @@
     <footer></footer>
     <script>
         var keys = {
-            0 : ['q','w','e','r','t','y','u','i','o','p'],
+            0 : {0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p', 'length':10},
             1 : ['a','s','d','f','g','h','j','k','l'],
             2 : ['z','x','c','v','b','n','m'],
             length : 3
@@ -31,9 +31,24 @@
             a : 'amazon.com',
             s : undefined
         }
+        
+        index = 0
+        while (index < keys['length']){
+            div1 = document.createElement('div');
+            ss.appendChild(div1) 
 
-        div1 = document.createElement('div');
-        ss.appendChild(div1) 
+            index2 = 0
+            while(index2 < keys[index]['length']){
+                kbd = document.createElement('kbd')
+                kbd.textContent = keys[index][index2]
+                div1.appendChild(kbd)
+                index2++;
+            }
+
+
+            index = index + 1; 
+        }
+
     </script>
 </body>
 </html>
