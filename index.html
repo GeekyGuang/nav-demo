@@ -37,15 +37,15 @@
             div1 = document.createElement('div');
             ss.appendChild(div1) 
 
+            row = keys[index]
+            console.log(row)  // 在控制台打印消息
             index2 = 0
-            while(index2 < keys[index]['length']){
+            while(index2 < row['length']){
                 kbd = document.createElement('kbd')
-                kbd.textContent = keys[index][index2]
+                kbd.textContent = row[index2]
                 div1.appendChild(kbd)
                 index2++;
             }
-
-
             index = index + 1; 
         }
 
