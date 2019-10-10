@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>我的导航</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <header></header>
-    <main id='zhangsan'>
+    <main >
+        <div class="wrapper" id='mainXXXXX'></div>
  
     </main>
     <footer></footer>
@@ -29,9 +31,27 @@
             'i': 'iqiyi.com',
             'z': 'zhihu.com',
         }
-        div1 = document.createElement('div') // 产生一个div
-        zhangsan.appendChild(div1) // 插入到一个id为zhangsan的元素里
+        //div1 = document.createElement('div') // 产生一个div
+        //zhangsan.appendChild(div1) // 插入到一个id为zhangsan的元素里
+        
+         
+        index = 0
+        while(index < keys['length']){
+            div = document.createElement('div') //必须每次都产生新的div
+            mainXXXXX.appendChild(div)
 
+            row = keys[index]
+
+            index2 = 0
+            while(index2<row['length']){
+                kbd = document.createElement('kbd') // 给div插入kbd元素
+                kbd.textContent = row[index2] //文本内容
+                div.appendChild(kbd)
+                index2++
+            }
+
+            index = index + 1
+        }
     </script>
 </body>
 </html>
