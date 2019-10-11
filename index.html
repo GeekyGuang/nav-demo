@@ -14,13 +14,13 @@
     <footer></footer>
     <script>
         // {这是hash} [这是array]
-        var keys = {
+        keys = {
             0: ['q','w','e','r','t','y','u','i','o','p'],
             1: ['a','s','d','f','g','h','j','k','l'],
             2: ['z','x','c','v','b','n','m'],
             length: 3
         }
-        var hash = {
+        hash = {
             'q': 'qq.com',
             'w': 'weibo.com',
             'e': 'ele.me',
@@ -34,6 +34,10 @@
         //div1 = document.createElement('div') // 产生一个div
         //zhangsan.appendChild(div1) // 插入到一个id为zhangsan的元素里
         
+        localHash = JSON.parse(localStorage.getItem('zzz') || 'null')
+        if(localHash) {
+            hash = localHash
+        }
          
         index = 0
         while(index < keys['length']){
@@ -46,11 +50,36 @@
             while(index2<row['length']){
                 kbd = document.createElement('kbd') // 给div插入kbd元素
                 kbd.textContent = row[index2] //文本内容
+                
+                // 创建button
+                buttonxxx = document.createElement('button')
+                buttonxxx.textContent = 'edit'
+                buttonxxx.id = row[index2]
+                buttonxxx.onclick = function(sjdjskdj) {
+                    // console.log(sjdjskdj.target.id)   //难点
+                    key = sjdjskdj.target.id
+                    newWeb = prompt('给我一个网址') // 获取用户输入
+                    hash[key] = newWeb  //修改hash里的网址
+                    localStorage.setItem('zzz', JSON.stringify(hash))  // 修改后将hash备份到localStorage
+                }
+                kbd.appendChild(buttonxxx)
+
                 div.appendChild(kbd)
                 index2++
             }
 
             index = index + 1
+        } 
+
+
+        document.onkeypress = function(djsaujdis) {
+            // console.log('我发现你按下了一个键')
+            // console.log(djsaujdis)
+            // console.log(djsaujdis['key'])  // 参数djsaujdis是存储了按键信息的Hash
+            key = djsaujdis['key']
+            website = hash[key] // 从hash里取网址
+            // location.href = 'http://' + website // 当前位置打开网站
+            window.open('http://' + website, '_blank') // 新标签页打开
         }
     </script>
 </body>
