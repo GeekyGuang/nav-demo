@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
     <header></header>
     <main >
-        <div class="wrapper" id='mainXXXXX'></div>
+        <div class="wrapper" id='main'></div>
  
     </main>
     <footer></footer>
@@ -42,7 +43,8 @@
         index = 0
         while(index < keys['length']){
             div = document.createElement('div') //必须每次都产生新的div
-            mainXXXXX.appendChild(div)
+            div.className = 'row'
+            main.appendChild(div)
 
             row = keys[index]
 
@@ -50,19 +52,19 @@
             while(index2<row['length']){
                 kbd = document.createElement('kbd') // 给div插入kbd元素
                 kbd.textContent = row[index2] //文本内容
-                
+                kbd.className = 'key'
                 // 创建button
-                buttonxxx = document.createElement('button')
-                buttonxxx.textContent = 'edit'
-                buttonxxx.id = row[index2]
-                buttonxxx.onclick = function(sjdjskdj) {
+                button = document.createElement('button')
+                button.textContent = 'edit'
+                button.id = row[index2]
+                button.onclick = function(sjdjskdj) {
                     // console.log(sjdjskdj.target.id)   //难点
                     key = sjdjskdj.target.id
                     newWeb = prompt('给我一个网址') // 获取用户输入
                     hash[key] = newWeb  //修改hash里的网址
                     localStorage.setItem('zzz', JSON.stringify(hash))  // 修改后将hash备份到localStorage
                 }
-                kbd.appendChild(buttonxxx)
+                kbd.appendChild(button)
 
                 div.appendChild(kbd)
                 index2++
@@ -83,4 +85,5 @@
         }
     </script>
 </body>
+
 </html>
