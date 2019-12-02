@@ -15,13 +15,13 @@
     <footer></footer>
     <script>
         // {这是hash} [这是array]
-        keys = {
+        var keys = {
             0: ['q','w','e','r','t','y','u','i','o','p'],
             1: ['a','s','d','f','g','h','j','k','l'],
             2: ['z','x','c','v','b','n','m'],
             length: 3
         }
-        hash = {
+        var hash = {
             'q': 'www.qq.com',
             'w': 'www.weibo.com',
             'e': 'www.ele.me',
@@ -35,32 +35,33 @@
         //div1 = document.createElement('div') // 产生一个div
         //zhangsan.appendChild(div1) // 插入到一个id为zhangsan的元素里
         
-        localHash = JSON.parse(localStorage.getItem('zzz') || 'null')
+        var localHash = getFromLocalStorage('zzz')
         if(localHash) {
             hash = localHash
         }
-         
-        index = 0
+
+
+        var index = 0
         while(index < keys['length']){
-            div = document.createElement('div') //必须每次都产生新的div
+            var div = tag('div') //必须每次都产生新的div
             div.className = 'row'
             main.appendChild(div)
 
             row = keys[index]
 
-            index2 = 0
+            var index2 = 0
             while(index2<row['length']){
-                kbd = document.createElement('kbd') // 给div插入kbd元素
-                span = document.createElement('span')
+                var kbd = tag('kbd') // 给div插入kbd元素
+                var span = tag('span')
                 span.textContent = row[index2] //文本内容
                 span.className = 'text'
                 kbd.appendChild(span)
                 kbd.className = 'key'
                 // 创建button
-                button = document.createElement('button')
+                var button = tag('button')
                 button.textContent = 'edit'
                 button.id = row[index2]
-                img = document.createElement('img')
+                var img = tag('img')
                 if(hash[row[index2]]){
                     img.src = 'http://' + hash[row[index2]] + '/favicon.ico'
                 } else {
@@ -91,10 +92,17 @@
             // console.log('我发现你按下了一个键')
             // console.log(djsaujdis)
             // console.log(djsaujdis['key'])  // 参数djsaujdis是存储了按键信息的Hash
-            key = djsaujdis['key']
-            website = hash[key] // 从hash里取网址
+            var key = djsaujdis['key']
+            var website = hash[key] // 从hash里取网址
             // location.href = 'http://' + website // 当前位置打开网站
             window.open('http://' + website, '_blank') // 新标签页打开
+        }
+
+        function getFromLocalStorage(name){
+            return JSON.parse(localStorage.getItem(name) || 'null')
+        }
+        function tag(tagName){
+            document.createElement(tagName);
         }
     </script>
 </body>
