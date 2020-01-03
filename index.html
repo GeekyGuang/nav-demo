@@ -1,108 +1,144 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
+
 <head>
     <meta charset="UTF-8">
     <title>我的导航</title>
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
 
     <header></header>
-    <main >
+    <main>
         <div class="wrapper" id='main'></div>
- 
+
     </main>
     <footer></footer>
     <script>
-        // {这是hash} [这是array]
-        var keys = {
-            0: ['q','w','e','r','t','y','u','i','o','p'],
-            1: ['a','s','d','f','g','h','j','k','l'],
-            2: ['z','x','c','v','b','n','m'],
-            length: 3
-        }
-        var hash = {
-            'q': 'www.qq.com',
-            'w': 'www.weibo.com',
-            'e': 'www.ele.me',
-            'r': 'www.renren.com',
-            't': 'www.tianya.com',
-            'y': 'www.yahoo.com',
-            'u': undefined,
-            'i': 'www.iqiyi.com',
-            'z': 'www.zhihu.com',
-        }
-        //div1 = document.createElement('div') // 产生一个div
-        //zhangsan.appendChild(div1) // 插入到一个id为zhangsan的元素里
+        // 1. 初始化
+        var hashA = init()
+        var keys = hashA['keys']
+        var hash = hashA['hash']
+
+        //2.生成键盘
+        generateKeyboard(keys, hash)
+
+        //3.监听键盘
+        listenToUser(hash)
         
-        var localHash = getFromLocalStorage('zzz')
-        if(localHash) {
-            hash = localHash
-        }
-
-
-        var index = 0
-        while(index < keys['length']){
-            var div = tag('div') //必须每次都产生新的div
-            div.className = 'row'
-            main.appendChild(div)
-
-            row = keys[index]
-
-            var index2 = 0
-            while(index2<row['length']){
-                var kbd = tag('kbd') // 给div插入kbd元素
-                var span = tag('span')
-                span.textContent = row[index2] //文本内容
-                span.className = 'text'
-                kbd.appendChild(span)
-                kbd.className = 'key'
-                // 创建button
-                var button = tag('button')
-                button.textContent = 'edit'
-                button.id = row[index2]
-                var img = tag('img')
-                if(hash[row[index2]]){
-                    img.src = 'http://' + hash[row[index2]] + '/favicon.ico'
-                } else {
-                    img.src = '//www.pornhub.com/favicon.ico' //去掉协议
-                }
-                img.onerror = function(xxx){
-                    xxx.target.src = '//www.pornhub.com/favicon.ico'
-                }
-
-                button.onclick = function(sjdjskdj) {
-                    // console.log(sjdjskdj.target.id)   //难点
-                    key = sjdjskdj.target.id
-                    newWeb = prompt('给我一个网址') // 获取用户输入
-                    hash[key] = newWeb  //修改hash里的网址
-                    localStorage.setItem('zzz', JSON.stringify(hash))  // 修改后将hash备份到localStorage
-                }
-                kbd.appendChild(button)
-                kbd.appendChild(img)
-                div.appendChild(kbd)
-                index2++
-            }
-
-            index = index + 1
-        } 
-
-
-        document.onkeypress = function(djsaujdis) {
-            // console.log('我发现你按下了一个键')
-            // console.log(djsaujdis)
-            // console.log(djsaujdis['key'])  // 参数djsaujdis是存储了按键信息的Hash
-            var key = djsaujdis['key']
-            var website = hash[key] // 从hash里取网址
-            // location.href = 'http://' + website // 当前位置打开网站
-            window.open('http://' + website, '_blank') // 新标签页打开
-        }
-
-        function getFromLocalStorage(name){
+        //4.下面为工具函数
+        function getFromLocalStorage(name) {
             return JSON.parse(localStorage.getItem(name) || 'null')
         }
-        function tag(tagName){
-            document.createElement(tagName);
+
+        function tag(tagName) {
+            return document.createElement(tagName);
+        }
+
+        function createSpan(textContent) {
+            var span = tag('span')
+            span.textContent = textContent //文本内容
+            span.className = 'text'
+            return span
+        }
+
+        function createImg(domain) {
+            var img = tag('img')
+            if (domain) {
+                img.src = 'http://' + domain + '/favicon.ico'
+            } else {
+                img.src = '//www.pornhub.com/favicon.ico' //去掉协议
+            }
+            img.onerror = function (xxx) {
+                xxx.target.src = '//www.pornhub.com/favicon.ico'
+            }
+            return img
+        }
+
+        function createButton(id) {
+            var button = tag('button')
+            button.textContent = 'edit'
+            button.id = id
+            button.onclick = function (sjdjskdj) {
+                // console.log(sjdjskdj.target.id)   //难点
+                key = sjdjskdj.target.id
+                newWeb = prompt('给我一个网址') // 获取用户输入
+                hash[key] = newWeb  //修改hash里的网址
+                localStorage.setItem('zzz', JSON.stringify(hash))  // 修改后将hash备份到localStorage
+            }
+            return button
+        }
+
+        function init() {
+            var keys = {
+                0: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+                1: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+                2: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+                length: 3
+            }
+            var hash = {
+                'q': 'www.qq.com',
+                'w': 'www.weibo.com',
+                'e': 'www.ele.me',
+                'r': 'www.renren.com',
+                't': 'www.tianya.com',
+                'y': 'www.yahoo.com',
+                'u': undefined,
+                'i': 'www.iqiyi.com',
+                'z': 'www.zhihu.com',
+            }
+            //div1 = document.createElement('div') // 产生一个div
+            //zhangsan.appendChild(div1) // 插入到一个id为zhangsan的元素里
+
+            var localHash = getFromLocalStorage('zzz')
+            if (localHash) {
+                hash = localHash
+            }
+
+            return {
+                "keys": keys,
+                "hash": hash
+            }
+        }
+
+        function generateKeyboard(keys, hash) {
+            for (var index = 0; index < keys['length']; index = index + 1) {
+                var div = tag('div') //必须每次都产生新的div
+                div.className = 'row'
+
+                main.appendChild(div)
+
+                var row = keys[index]
+                for (var index2 = 0; index2 < row['length']; index2++) {
+                    var span = createSpan(row[index2])
+
+                    var img = createImg(hash[row[index2]])
+
+                    var button = createButton(row[index2])
+
+                    var kbd = tag('kbd') // 给div插入kbd元素
+                    kbd.appendChild(span)
+                    kbd.className = 'key'
+                    kbd.appendChild(button)
+                    kbd.appendChild(img)
+
+                    div.appendChild(kbd)
+                }
+
+            }
+        }
+
+        function listenToUser(hash) {
+            document.onkeypress = function (djsaujdis) {
+                // console.log('我发现你按下了一个键')
+                // console.log(djsaujdis)
+                // console.log(djsaujdis['key'])  // 参数djsaujdis是存储了按键信息的Hash
+                var key = djsaujdis['key']
+                var website = hash[key] // 从hash里取网址
+                // location.href = 'http://' + website // 当前位置打开网站
+                window.open('http://' + website, '_blank') // 新标签页打开
+            }
         }
     </script>
 </body>
